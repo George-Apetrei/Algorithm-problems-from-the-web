@@ -1,0 +1,38 @@
+class Solution {
+public:
+    
+    bool calculate_and(std::vector<bool> expression){
+        bool result{true};
+        for(int i=0;i<expression.size();++i){
+            if(expression[i]==false){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    bool calculate_or(std::vector<bool> expression){
+        bool result{false};
+        for(int i=0;i<expression.size();++i){
+            result==result||expression[i];
+        }
+        return result;
+    }
+    
+    bool calculate_negate(bool expression){
+        return !expression;
+    }
+    
+    
+    
+    bool parseBoolExpr(string expression) {
+        int bracket;
+        std::vector<int> bracket;
+        bool result;
+        std::vector<bool> expr;
+        for(int i=0;i<expression.size();++i){
+            if()
+        }
+        return calculate_and(expr);
+    }
+};
