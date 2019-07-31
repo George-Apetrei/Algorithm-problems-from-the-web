@@ -1,38 +1,82 @@
 class Solution {
 public:
-    
-    bool calculate_and(std::vector<bool> expression){
-        bool result{true};
-        for(int i=0;i<expression.size();++i){
+
+    bool calculate_and(std::vector<bool> expression){ //Parse the expression through an and
+        for(int i=0;i<expression.size();++i){ //If any element is false, the entire expression will result in false
             if(expression[i]==false){
                 return false;
             }
         }
         return true;
     }
-    
-    bool calculate_or(std::vector<bool> expression){
-        bool result{false};
-        for(int i=0;i<expression.size();++i){
-            result==result||expression[i];
-        }
-        return result;
-    }
-    
-    bool calculate_negate(bool expression){
+
+    bool calculate_or(std::vector<bool> expression) { //Parse or, if any element is true, the entire expression will be true
+		for (int i = 0; i < expression.size(); ++i) {
+			if (expression[i] == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+    bool calculate_negate(bool expression){ //Return the negated value
         return !expression;
     }
-    
-    
-    
+
     bool parseBoolExpr(string expression) {
-        int bracket;
-        std::vector<int> bracket;
-        bool result;
-        std::vector<bool> expr;
-        for(int i=0;i<expression.size();++i){
-            if()
+        std::vector<char> operation;  //Vector to hold all operations to be completed
+        bool result,hold; //result is used to hold the intermediary results between expressions, hold is only used to push back into the vector of bools
+        std::vector<std::vector<bool>> expr;  //Holds all expressions to be evaluated
+        /*
+        Algorithm explanation:
+        For every operation to be done, there will be an expressions
+        Thus:
+        For every operation to be done, push an empty vector of bools into expr
+        Push the true/false values to be evaluated into the last added vector of bools
+        When ")" is encountered, evaluate the expression with the last saved operation
+        If the ")" is the last character in the string, return the result to the user
+        If it's not, save the result in the second to last vector of bools, and delete the last and then repeat until all operations have been parsed
+        */
+        for(int i=0;i<expression.size();++i){ //Go through the entire input string
+            if(expression.at(i)=='('||expression.at(i)==','){   //If there is a '(' or ',', ignore it
+                continue;
+            }
+            if(expression.at(i)=='|'||expression.at(i)=='!'||expression.at(i)=='&'){  //If a symbol showing an operation is found, save it in the operations vector
+                operation.push_back(expression.at(i));
+                expr.push_back(std::vector<bool>());
+                continue;
+            }
+            if(expression.at(i)=='t'||expression.at(i)=='f'){ //If value is found, save it in the last created vector of bools
+                if(expression.at(i)=='t'){
+                    hold=true;
+                    expr[expr.size()-1].push_back(hold);
+                }else{
+                    hold=false;
+                    expr[expr.size()-1].push_back(hold);
+                }
+             continue;
+            }
+            if(expression.at(i)==')'){  //If end of bracket is found, parse the last added operation
+                switch(operation.back()){
+                    case '|':
+                        result=calculate_or(expr.back());
+                        break;
+                    case '&':
+                        result=calculate_and(expr.back());
+                        break;
+                    case '!':
+                        result=calculate_negate(expr.back().at(0));
+                        break;
+                }
+                if(i==expression.size()-1){
+                    break;
+                }else{
+                    expr.pop_back();
+                    expr[expr.size()-1].push_back(result);
+                    operation.pop_back();
+                }
+            }
         }
-        return calculate_and(expr);
+        return result;
     }
 };
