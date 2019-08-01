@@ -1,4 +1,4 @@
-# Leetcode
-Just a place where I copy-paste my leetcode successfully solved problems
+# Problems
+Just a place where I copy-paste my successfully solved and in-progress problems
 
-They're put up by number of problem, in a text file because it's supposed to be pasted into the leetcode website rather than compiling yourself
+They're sorted by the website where I found them, within those folders they're sorted by the difficulty they're under on said website.
